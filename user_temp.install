@@ -1,0 +1,43 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the user_temp module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function user_temp_schema() {
+  $schema['user_temp_keys'] = array(
+    'description' => 'Table that contains API keys for user temperatures',
+    'fields' => array(
+      'id' => array(
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary Key',
+      ),
+      'uid' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'The {users}.uid of the user who owns the key.',
+      ),
+      'user_key' => array(
+        'type' => 'varchar_ascii',
+        'length' => 64,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'The user key."',
+      ),
+    ),
+    'primary key' => array('id'),
+    'indexes' => array(
+      'uid' => array('uid'),
+      'user_key' => array('user_key'),
+    ),
+  );
+
+  return $schema;
+}

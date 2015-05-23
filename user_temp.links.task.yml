@@ -1,0 +1,4 @@
+user_temp.temperatures:
+  route_name: user_temp.temperatures
+  base_route: entity.user.canonical
+  title: 'Temperatures'

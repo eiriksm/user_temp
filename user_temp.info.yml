@@ -1,0 +1,6 @@
+name: User temperatures
+type: module
+description: Log temperature per user.
+core: 8.x
+package: Other
+

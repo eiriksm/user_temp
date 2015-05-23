@@ -1,0 +1,5 @@
+services:
+  access_check.user_temp.post_temp:
+    class: Drupal\user_temp\Access\PostTempAccessCheck
+    tags:
+      - { name: access_check, applies_to: _access_user_temp_post }
