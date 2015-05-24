@@ -2,7 +2,7 @@ user_temp.temperatures:
   path: '/user/{user}/user_temp'
   defaults:
     _controller: '\Drupal\user_temp\Controller\UserTempController::temp'
-    _title: 'user_temp Title'
+    _title: 'User temperatures'
   requirements:
     _permission: 'create own temperatures'
 user_temp.post_temperatures:

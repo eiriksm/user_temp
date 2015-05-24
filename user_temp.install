@@ -25,8 +25,8 @@ function user_temp_schema() {
         'description' => 'The {users}.uid of the user who owns the key.',
       ),
       'user_key' => array(
-        'type' => 'varchar_ascii',
-        'length' => 64,
+        'type' => 'varchar',
+        'length' => 255,
         'not null' => TRUE,
         'default' => '',
         'description' => 'The user key."',

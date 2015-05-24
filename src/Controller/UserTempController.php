@@ -12,6 +12,7 @@ use Drupal\user\UserInterface;
 use Drupal\Core\Database\Connection;
 use Drupal\Component\Utility\Crypt;
 use Drupal\Component\Utility\SafeMarkup;
+use Drupal\views\ViewExecutableFactory;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -47,6 +48,8 @@ class UserTempController extends ControllerBase {
    *
    * * @param \Drupal\Core\Database\Connection $database
    *   A database connection.
+   * * @param \Drupal\views\ViewExecutableFactory $views_factory
+   *   A... views factory? Whatever that is...
    */
   public function __construct(Connection $database, ViewExecutableFactory $views_factory) {
     $this->database = $database;
