@@ -1,0 +1,50 @@
+language: php
+
+php:
+  - 5.4
+  - 5.5
+  - 5.6
+  - hhvm
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - php: hhvm
+
+env:
+  global:
+    - DATABASE='drupal'
+    - DB_USERNAME='root'
+    - DB_ENCODE='utf8'
+
+mysql:
+  database: $DATABASE
+  username: $DB_USERNAME
+  encoding: $DB_ENCODE
+
+before_install:
+  - sudo apt-get update > /dev/null
+
+install:
+  - sudo apt-get install -y --force-yes php5-cgi php5-mysql
+  - export PATH="$HOME/.composer/vendor/bin:$PATH"
+  - export TEST_URL="http://localhost:8080"
+  - composer global require drush/drush:dev-master
+  - composer global require drupal/coder
+  - tar -cvzf /tmp/module.tar.gz .
+  - mkdir build
+  - drush dl drupal-8
+  - mv drupal* build/drupal
+  - cd build/drupal/modules
+  - tar -xvzf /tmp/module.tar.gz
+  - php -d sendmail_path=`which true` ~/.composer/vendor/bin/drush.php si --db-url="mysql://$DB_USERNAME@127.0.0.1/$DATABASE" -y
+  - drush en simpletest user_temp -y
+
+before_script:
+  - cd ..
+  - drush runserver 127.0.0.1:8080 &
+  - until netstat -an 2>/dev/null | grep '8080.*LISTEN'; do true; done
+
+script:
+  - phpcs --standard=$HOME/.composer/vendor/drupal/coder/coder_sniffer/Drupal modules
+  - php core/scripts/run-tests.sh --php /home/travis/.phpenv/shims/php --url $TEST_URL --class "Drupal\user_temp\Tests\UserTempControllerTest"

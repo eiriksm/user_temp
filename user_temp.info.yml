@@ -3,4 +3,9 @@ type: module
 description: Log temperature per user.
 core: 8.x
 package: Other
-
+dependencies:
+  - views
+  - field_ui
+  - node
+  - path
+  - menu_ui

@@ -43,12 +43,11 @@ class UserTempController extends ControllerBase {
     );
   }
   /**
-   *
    * Construct the userTempController.
    *
-   * * @param \Drupal\Core\Database\Connection $database
+   * @param \Drupal\Core\Database\Connection $database
    *   A database connection.
-   * * @param \Drupal\views\ViewExecutableFactory $views_factory
+   * @param \Drupal\views\ViewExecutableFactory $views_factory
    *   A... views factory? Whatever that is...
    */
   public function __construct(Connection $database, ViewExecutableFactory $views_factory) {
@@ -105,9 +104,8 @@ class UserTempController extends ControllerBase {
   /**
    * POST handler for processing the temperatures.
    *
-   * @param $user
+   * @param string $user
    *   The uid in the route.
-   *
    * @param \Symfony\Component\HttpFoundation\Request $request
    *   The request object.
    */
@@ -148,7 +146,7 @@ class UserTempController extends ControllerBase {
     }
 
     return new JsonResponse(array(
-      'nid' => $nid
+      'nid' => $nid,
     ));
   }
 
