@@ -86,7 +86,11 @@ class UserTempController extends ControllerBase {
     // @todo: Use a template here.
     // @todo: Use a proper link generator.
     global $base_url;
-    $curl_command = sprintf('curl -H "x-user-temp: %s" %s/user/1/user_temp_post -d \'{"temp": "21.6"}\'', $user_key, $base_url);
+    $curl_command = sprintf('curl -H "x-user-temp: %s" %s/user/%d/user_temp_post -d \'{"temp": "21.6"}\'',
+      $user_key,
+      $base_url,
+      $user->id()
+    );
     $curl_markup = '<p>' . $this->t('Usage example: !example', array(
       '!example' => '<pre><code>' . $curl_command . '</code></pre>'
     )) . '</p>';
