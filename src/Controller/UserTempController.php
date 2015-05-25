@@ -82,14 +82,23 @@ class UserTempController extends ControllerBase {
       $user_key = $user_key_object->user_key;
     }
 
+    // Show the user a little pretty info on how they should POST the request.
+    // @todo: Use a template here.
+    // @todo: Use a proper link generator.
+    global $base_url;
+    $curl_command = sprintf('curl -H "x-user-temp: %s" %s/user/1/user_temp_post -d \'{"temp": "21.6"}\'', $user_key, $base_url);
+    $curl_markup = '<p>' . $this->t('Usage example: !example', array(
+      '!example' => '<pre><code>' . $curl_command . '</code></pre>'
+    )) . '</p>';
+
     // Also get a view of the users temperatures.
     $view = entity_load('view', 'user_temperatures');
 
     $api_data = [
       '#type' => 'markup',
-      '#markup' => t('Your API key is @api_key', [
+      '#markup' => '<p>' . $this->t('Your API key is @api_key', [
         '@api_key' => $user_key,
-      ]),
+      ]) . '</p>' . $curl_markup,
     ];
     return [
       'api_key' => $api_data,
