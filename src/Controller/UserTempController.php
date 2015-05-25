@@ -92,7 +92,7 @@ class UserTempController extends ControllerBase {
       $user->id()
     );
     $curl_markup = '<p>' . $this->t('Usage example: !example', array(
-      '!example' => '<pre><code>' . $curl_command . '</code></pre>'
+      '!example' => '<pre><code>' . $curl_command . '</code></pre>',
     )) . '</p>';
 
     // Also get a view of the users temperatures.
