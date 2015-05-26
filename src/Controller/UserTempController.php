@@ -7,6 +7,7 @@
 
 namespace Drupal\user_temp\Controller;
 
+use Drupal\Core\Url;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\user\UserInterface;
 use Drupal\Core\Database\Connection;
@@ -82,35 +83,22 @@ class UserTempController extends ControllerBase {
       $user_key = $user_key_object->user_key;
     }
 
-    // Show the user a little pretty info on how they should POST the request.
-    // @todo: Use a template here.
-    // @todo: Use a proper link generator.
-    global $base_url;
-    $curl_command = sprintf('curl -H "x-user-temp: %s" %s/user/%d/user_temp_post -d \'{"temp": "21.6"}\'',
-      $user_key,
-      $base_url,
-      $user->id()
-    );
-    $curl_markup = '<p>' . $this->t('Usage example: !example', array(
-      '!example' => '<pre><code>' . $curl_command . '</code></pre>',
-    )) . '</p>';
+    // Generate the URL which we should use in the CURL explaination.
+    $post_url = Url::fromRoute('user_temp.post_temperatures', [
+      'user' => $user->id(),
+    ], [
+      'absolute' => TRUE,
+    ])->toString();
 
     // Also get a view of the users temperatures.
     $view = entity_load('view', 'user_temperatures');
 
-    $api_data = [
-      '#type' => 'markup',
-      '#markup' => '<p>' . $this->t('Your API key is @api_key', [
-        '@api_key' => $user_key,
-      ]) . '</p>' . $curl_markup,
-    ];
+    // Add the variables to the render array and render from our template.
     return [
-      'api_key' => $api_data,
-      'header' => [
-        '#type' => 'markup',
-        '#markup' => '<h2>' . $this->t('User temperatures') . '</h2>',
-      ],
-      'view' => $this->views_factory->get($view)->preview(),
+      '#api_key' => $user_key,
+      '#user_view' => $this->views_factory->get($view)->preview(),
+      '#post_url' => $post_url,
+      '#theme' => 'user-temp-user-page',
     ];
   }
 
@@ -121,6 +109,9 @@ class UserTempController extends ControllerBase {
    *   The uid in the route.
    * @param \Symfony\Component\HttpFoundation\Request $request
    *   The request object.
+   *
+   * @return string
+   *   A JSON encoded object containing the nid of the node.
    */
   public function post($user, Request $request) {
     // Get the value posted.

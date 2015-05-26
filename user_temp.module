@@ -27,7 +27,15 @@ function user_temp_help($route_name, RouteMatchInterface $route_match) {
  * Implements hook_theme().
  */
 function user_temp_theme() {
-  $theme = [];
+  $theme = [
+    'user-temp-user-page' => [
+      'variables' => [
+        'api_key' => '',
+        'post_url' => '',
+        'user_view' => []
+      ],
+    ],
+  ];
 
   return $theme;
 }

@@ -1,0 +1,10 @@
+<p>
+  {%trans%}Your API key is{%endtrans%} {{api_key}}
+</p>
+<p>
+  {%trans%}Usage example{%endtrans%}:
+</p>
+<pre><code>curl -H "x-user-temp: {{api_key}}" {{post_url}} -d '{"temp": "21.6"}'
+</code></pre>
+<h2>{%trans%}User temperatures{%endtrans%}</h2>
+{{user_view}}
